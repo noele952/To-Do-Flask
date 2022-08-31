@@ -1,0 +1,77 @@
+{% include 'header.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1>To Do List</h1>
+								<SCRIPT>
+function ShowAndHide() {
+    var x = document.getElementById('SectionName');
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+								<BUTTON ONCLICK="ShowAndHide()">Add Task</BUTTON>
+								<DIV ID="SectionName" STYLE="display:none">{{ wtf.quick_form(form, novalidate=True, button_map={'submit':'primary'}) }}</DIV>
+
+						</div>
+					</section>
+				<!-- One -->
+					<section id="one" class="wrapper style2 spotlights">
+
+								<div class="inner">
+									<h3>To Do</h3>
+									<ul style="list-style-type:none;">
+									{% for task in tasks: %}
+									{% if not task.doing: %}
+									<li>
+									 <a href="{{ url_for('complete', id = task.id) }}">{{ task.task }}</a>
+									</li>
+									{% endif %}
+									{% endfor %}
+									</ul>
+								</div>
+
+					</section>
+				<!-- Two -->
+					<section id="two" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h3>Doing</h3>
+							<ul style="list-style-type:none;">
+									{% for task in tasks: %}
+									{% if task.doing and not task.done: %}
+
+									<li>
+									 <a href="{{ url_for('complete', id = task.id) }}">{{ task.task }}</a>
+									</li>
+									{% endif %}
+									{% endfor %}
+									</ul>
+						</div>
+					</section>
+				<!-- Three -->
+					<section id="three" class="wrapper style1 fade-up">
+						<div class="inner">
+							<ul style="list-style-type:none;">
+									{% for task in tasks: %}
+									{% if task.done: %}
+
+									<li>
+									 <s>{{ task.task }}</s>
+									</li>
+									{% endif %}
+									{% endfor %}
+									</ul>
+						</div>
+					</section>
+
+			</div>
+
+		{% include 'footer.html' %}
